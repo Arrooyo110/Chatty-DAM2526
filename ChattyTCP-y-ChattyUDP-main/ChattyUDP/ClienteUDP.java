@@ -21,9 +21,9 @@ public class ClienteUDP {
                 while (true) {
                     // Preparar paquete vacío para recibir
                     DatagramPacket paqueteRecibido = new DatagramPacket(buffer, buffer.length);
-                    socket.receive(paqueteRecibido); // Bloqueante [cite: 899]
+                    socket.receive(paqueteRecibido);
 
-                    // Convertir bytes a String [cite: 892]
+                    // Convertir bytes a String
                     String mensajeServidor = new String(paqueteRecibido.getData(), 0, paqueteRecibido.getLength());
                     System.out.println(mensajeServidor);
                 }
