@@ -8,15 +8,13 @@ public class ClienteUDP {
         System.out.print("Introduce tu nombre: ");
         String nombre = scanner.nextLine();
 
-        // 1. Crear el socket (sin puerto específico, el sistema asigna uno libre) [cite: 898]
+        //Crear el socket
         DatagramSocket socket = new DatagramSocket();
 
-        // Configuración del servidor destino (Localhost:5000)
+        // Configuración del puerto
         InetAddress direccionServidor = InetAddress.getByName("localhost");
         int puertoServidor = 5000;
 
-        // --- HILO PARA ESCUCHAR (RECEPCIÓN) ---
-        // Implementamos la lógica de recibir en segundo plano
         new Thread(() -> {
             try {
                 byte[] buffer = new byte[1024];
@@ -34,12 +32,11 @@ public class ClienteUDP {
             }
         }).start();
 
-        // --- HILO PRINCIPAL (ENVÍO) ---
-        // Enviamos un primer mensaje para "registrarnos" en el servidor
+        // Enviamos un primer mensaje para registrarnos en el servidor
         String saludo = nombre + " se ha unido al chat.";
         byte[] bufferSaludo = saludo.getBytes();
         DatagramPacket paqueteSaludo = new DatagramPacket(bufferSaludo, bufferSaludo.length, direccionServidor, puertoServidor);
-        socket.send(paqueteSaludo); // [cite: 900]
+        socket.send(paqueteSaludo);
 
         // Bucle para enviar mensajes
         while (true) {
@@ -47,7 +44,7 @@ public class ClienteUDP {
             String mensajeCompleto = nombre + ": " + texto;
             byte[] bufferMensaje = mensajeCompleto.getBytes();
 
-            // Crear paquete con dirección destino [cite: 884]
+            // Crear paquete con dirección destino
             DatagramPacket paqueteEnvio = new DatagramPacket(
                     bufferMensaje,
                     bufferMensaje.length,
